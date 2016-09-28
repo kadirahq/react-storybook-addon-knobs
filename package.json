@@ -21,7 +21,7 @@
   "devDependencies": {
     "@kadira/storybook": "^2.1.0",
     "babel-cli": "^6.5.0",
-    "babel-core": "^6.5.0",
+    "babel-core": "^6.16.0",
     "babel-eslint": "^7.0.0",
     "babel-loader": "^6.2.4",
     "babel-plugin-transform-runtime": "^6.5.0",
