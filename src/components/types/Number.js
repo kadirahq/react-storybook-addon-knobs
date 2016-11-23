@@ -18,16 +18,30 @@ class NumberType extends React.Component {
   render() {
     const { knob, onChange } = this.props;
 
-    return (
-      <input
-        id={knob.name}
-        ref="input"
-        style={styles}
-        value={knob.value}
-        type="number"
-        onChange={() => onChange(parseFloat(this.refs.input.value))}
-      />
-    );
+	  if (knob.range) {
+		  return (
+			  <input
+				  id={knob.name}
+				  ref="input"
+				  style={styles}
+				  value={knob.value}
+				  type="range"
+				  min={knob.min}
+				  max={knob.max}
+				  step={knob.step}
+				  onChange={() => onChange(parseFloat(this.refs.input.value))}
+			  /> );
+	  } else {
+		  return (
+			  <input
+				  id={knob.name}
+				  ref="input"
+				  style={styles}
+				  value={knob.value}
+				  type="number"
+				  onChange={() => onChange(parseFloat(this.refs.input.value))}
+			  /> );
+	  }
   }
 }
 

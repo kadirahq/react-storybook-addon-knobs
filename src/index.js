@@ -15,8 +15,17 @@ export function boolean(name, value) {
   return manager.knob(name, { type: 'boolean', value });
 }
 
-export function number(name, value) {
-  return manager.knob(name, { type: 'number', value });
+export function number(name, value, options = {}) {
+  const defaults = {
+      range: false,
+      min: 0,
+      max: 10,
+      step: 1
+  };
+
+  const mergedOptions = {...defaults, ...options};
+
+  return manager.knob(name, { type: 'number', value, range: mergedOptions.range, min: mergedOptions.min, max: mergedOptions.max, step: mergedOptions.step});
 }
 
 export function color(name, value) {
