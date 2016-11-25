@@ -123,7 +123,12 @@ const defaultValue = 73;
 const min = 60;
 const max = 90;
 const step = 1;
-const options = {range: true, min, max, step};
+const options = {
+   range: true,
+   min: 60,
+   max: 90,
+   step: 1,
+};
 
 const value = number(label, defaultValue, options);
 ```
