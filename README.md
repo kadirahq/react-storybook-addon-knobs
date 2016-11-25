@@ -120,9 +120,6 @@ Allows you to get a number from the user using a range slider.
 ```js
 const label = 'Temperature';
 const defaultValue = 73;
-const min = 60;
-const max = 90;
-const step = 1;
 const options = {
    range: true,
    min: 60,
