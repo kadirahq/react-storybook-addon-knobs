@@ -23,7 +23,7 @@ export function color(name: string, value: string): string;
 export function object<T>(name: string, value: T): T;
 
 export function select<T>(name: string, options: { [s: string]: T }, value: string): T;
-export function select(name: string, options: string[], value: string): string;
+export function select<T>(name: string, options: T[], value: string): T;
 
 export function date(name: string, value?: Date): Date;
 
