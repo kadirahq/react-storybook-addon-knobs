@@ -27,7 +27,7 @@ stories.add('with all knobs', () => {
 
   const bold = boolean('Bold', false);
   const selectedColor = color('Color', 'black');
-  const favoriteNumber = number('Favorite Number', 42);
+  const favoriteNumber = select('Favorite Number', { 'Seven': 7, 'Forty-two': 42, 'Nine thousand': 9000 }, 42);
   const comfortTemp = number('Comfort Temp', 72, {range:true, min: 60, max: 90, step: 1});
 
   const passions = array('Passions', ['Fishing', 'Skiing']);
@@ -40,7 +40,6 @@ stories.add('with all knobs', () => {
   const style = {
     ...customStyle,
     fontWeight: bold ? 800: 400,
-    favoriteNumber: favoriteNumber,
     color: selectedColor,
   };
 
