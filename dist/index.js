@@ -18,6 +18,7 @@ exports.select = select;
 exports.array = array;
 exports.date = date;
 exports.withKnobs = withKnobs;
+exports.withKnobsOptions = withKnobsOptions;
 
 var _storybookAddons = require('@kadira/storybook-addons');
 
@@ -91,4 +92,11 @@ function date(name) {
 function withKnobs(storyFn, context) {
   var channel = _storybookAddons2.default.getChannel();
   return manager.wrapStory(channel, storyFn, context);
+}
+
+function withKnobsOptions(options) {
+  var channel = _storybookAddons2.default.getChannel();
+  channel.emit('addon:knobs:setOptions', options);
+
+  return withKnobs;
 }

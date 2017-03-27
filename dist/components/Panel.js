@@ -44,6 +44,10 @@ var _types = require('./types');
 
 var _types2 = _interopRequireDefault(_types);
 
+var _lodash = require('lodash.debounce');
+
+var _lodash2 = _interopRequireDefault(_lodash);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var styles = {
@@ -89,14 +93,28 @@ var Panel = function (_React$Component) {
     _this.handleChange = _this.handleChange.bind(_this);
     _this.setKnobs = _this.setKnobs.bind(_this);
     _this.reset = _this.reset.bind(_this);
+    _this.setOptions = _this.setOptions.bind(_this);
 
     _this.state = { knobs: {} };
     _this.loadedFromUrl = false;
     _this.props.channel.on('addon:knobs:setKnobs', _this.setKnobs);
+    _this.props.channel.on('addon:knobs:setOptions', _this.setOptions);
+
     return _this;
   }
 
   (0, _createClass3.default)(Panel, [{
+    key: 'setOptions',
+    value: function setOptions() {
+      var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {
+        debounce: false,
+        leading: false };
+
+      if (options.debounce) {
+        this.emitChange = (0, _lodash2.default)(this.emitChange, 450, { leading: options.leading });
+      }
+    }
+  }, {
     key: 'componentWillUnmount',
     value: function componentWillUnmount() {
       this.props.channel.removeListener('addon:knobs:setKnobs', this.setKnobs);
@@ -138,6 +156,11 @@ var Panel = function (_React$Component) {
       this.props.channel.emit('addon:knobs:reset');
     }
   }, {
+    key: 'emitChange',
+    value: function emitChange(changedKnob) {
+      this.props.channel.emit('addon:knobs:knobChange', changedKnob);
+    }
+  }, {
     key: 'handleChange',
     value: function handleChange(changedKnob) {
       var _props2 = this.props,
@@ -157,7 +180,8 @@ var Panel = function (_React$Component) {
       queryParams['knob-' + name] = _types2.default[type].serialize(value);
 
       api.setQueryParams(queryParams);
-      channel.emit('addon:knobs:knobChange', changedKnob);
+
+      this.emitChange(changedKnob);
     }
   }, {
     key: 'render',
