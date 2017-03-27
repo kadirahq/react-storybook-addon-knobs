@@ -1,6 +1,7 @@
 import React from 'react';
 import PropForm from './PropForm';
 import Types from './types';
+import debounce from 'lodash.debounce';
 
 const styles = {
   panelWrapper: {
@@ -43,10 +44,22 @@ export default class Panel extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.setKnobs = this.setKnobs.bind(this);
     this.reset = this.reset.bind(this);
+    this.setOptions = this.setOptions.bind(this);
 
     this.state = { knobs: {} };
     this.loadedFromUrl = false;
     this.props.channel.on('addon:knobs:setKnobs', this.setKnobs);
+    this.props.channel.on('addon:knobs:setOptions', this.setOptions);
+
+  }
+
+  setOptions(options = {
+    debounce: false,
+    leading: false, //first change is istant
+  }) {
+    if (options.debounce) {
+      this.emitChange = debounce(this.emitChange, 450, {leading: options.leading});
+    }
   }
 
   componentWillUnmount() {
@@ -81,6 +94,10 @@ export default class Panel extends React.Component {
     this.props.channel.emit('addon:knobs:reset');
   }
 
+  emitChange(changedKnob) {
+    this.props.channel.emit('addon:knobs:knobChange', changedKnob);
+  }
+
   handleChange(changedKnob) {
     const { api, channel } = this.props;
     const { knobs } = this.state;
@@ -97,7 +114,8 @@ export default class Panel extends React.Component {
     queryParams[`knob-${name}`] = Types[type].serialize(value);
 
     api.setQueryParams(queryParams);
-    channel.emit('addon:knobs:knobChange', changedKnob);
+
+    this.emitChange(changedKnob);
   }
 
   render() {
