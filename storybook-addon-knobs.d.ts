@@ -10,6 +10,10 @@ interface StoryContext {
 	story: string,
 }
 
+interface withKnobs {
+    (storyFn: Function, context: StoryContext): React.ReactElement<IWrapStoryProps>;
+}
+
 export function knob<T>(name: string, options: KnobOption<T>): T;
 
 export function text(name: string, value: string | null): string;
@@ -35,4 +39,4 @@ interface IWrapStoryProps {
   initialContent?: Object;
 }
 
-export function withKnobs(storyFn: Function, context: StoryContext): React.ReactElement<IWrapStoryProps>;
+export function withKnobsOptions(options: Object): withKnobs;
