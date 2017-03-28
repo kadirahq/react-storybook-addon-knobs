@@ -58,7 +58,7 @@ export default class Panel extends React.Component {
     leading: false, //first change is istant
   }) {
     if (options.debounce) {
-      this.emitChange = debounce(this.emitChange, 450, {leading: options.leading});
+      this.emitChange = debounce(this.emitChange, options.debounce, {leading: options.leading});
     }
   }
 

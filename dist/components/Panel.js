@@ -111,7 +111,7 @@ var Panel = function (_React$Component) {
         leading: false };
 
       if (options.debounce) {
-        this.emitChange = (0, _lodash2.default)(this.emitChange, 450, { leading: options.leading });
+        this.emitChange = (0, _lodash2.default)(this.emitChange, options.debounce, { leading: options.leading });
       }
     }
   }, {
