@@ -11,7 +11,7 @@ interface StoryContext {
 }
 
 interface withKnobs {
-    (storyFn: Function, context: StoryContext): React.ReactElement<IWrapStoryProps>;
+	(storyFn: Function, context: StoryContext): React.ReactElement<IWrapStoryProps>;
 }
 
 export function knob<T>(name: string, options: KnobOption<T>): T;
