@@ -61,8 +61,10 @@ export function withKnobs(storyFn, context) {
 }
 
 export function withKnobsOptions(options) {
-  const channel = addons.getChannel();
-  channel.emit('addon:knobs:setOptions', options);
+  return (...args) => {
+    const channel = addons.getChannel();
+    channel.emit('addon:knobs:setOptions', options);
 
-  return withKnobs;
+    return withKnobs(...args);
+  }
 }

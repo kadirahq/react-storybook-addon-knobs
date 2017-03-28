@@ -39,4 +39,4 @@ interface IWrapStoryProps {
   initialContent?: Object;
 }
 
-export function withKnobsOptions(options: Object): withKnobs;
+export function withKnobsOptions(options: Object): (storyFn: Function, context: StoryContext) => withKnobs;

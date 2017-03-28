@@ -95,8 +95,10 @@ function withKnobs(storyFn, context) {
 }
 
 function withKnobsOptions(options) {
-  var channel = _storybookAddons2.default.getChannel();
-  channel.emit('addon:knobs:setOptions', options);
+  return function () {
+    var channel = _storybookAddons2.default.getChannel();
+    channel.emit('addon:knobs:setOptions', options);
 
-  return withKnobs;
+    return withKnobs.apply(undefined, arguments);
+  };
 }
