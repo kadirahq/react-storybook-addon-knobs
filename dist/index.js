@@ -94,7 +94,9 @@ function withKnobs(storyFn, context) {
   return manager.wrapStory(channel, storyFn, context);
 }
 
-function withKnobsOptions(options) {
+function withKnobsOptions() {
+  var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
   return function () {
     var channel = _storybookAddons2.default.getChannel();
     channel.emit('addon:knobs:setOptions', options);

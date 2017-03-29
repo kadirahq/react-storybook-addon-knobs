@@ -78,7 +78,7 @@ var WrapStory = function (_React$Component) {
           channel = _props.channel,
           knobStore = _props.knobStore;
 
-      channel.emit('addon:knobs:setKnobs', knobStore.getAll());
+      channel.emit('addon:knobs:setKnobs', { knobs: knobStore.getAll(), timestamp: +new Date() });
     }
   }, {
     key: 'knobChanged',

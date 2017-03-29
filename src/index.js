@@ -60,11 +60,11 @@ export function withKnobs(storyFn, context) {
   return manager.wrapStory(channel, storyFn, context);
 }
 
-export function withKnobsOptions(options) {
+export function withKnobsOptions(options = {}) {
   return (...args) => {
     const channel = addons.getChannel();
     channel.emit('addon:knobs:setOptions', options);
 
     return withKnobs(...args);
-  }
+  };
 }

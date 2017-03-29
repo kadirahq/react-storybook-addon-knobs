@@ -14,7 +14,7 @@ const styles = {
   color: '#555',
 };
 
-class SelectType extends React.Component {
+class SelectType extends React.PureComponent {
   _makeOpt(key, val) {
     const opts = {
       key,

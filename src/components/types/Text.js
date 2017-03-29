@@ -15,7 +15,7 @@ const styles = {
   color: '#555',
 };
 
-class TextType extends React.Component {
+class TextType extends React.PureComponent {
   render() {
     const { knob, onChange } = this.props;
 

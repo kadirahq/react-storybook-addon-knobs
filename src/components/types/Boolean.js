@@ -11,7 +11,7 @@ const styles = {
   color: '#555',
 };
 
-class BooleanType extends React.Component {
+class BooleanType extends React.PureComponent {
   render() {
     const { knob, onChange } = this.props;
 

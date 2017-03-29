@@ -3,6 +3,8 @@ import PropForm from './PropForm';
 import Types from './types';
 import debounce from 'lodash.debounce';
 
+const getTimestamp = () => +new Date();
+
 const styles = {
   panelWrapper: {
     width: '100%',
@@ -47,10 +49,15 @@ export default class Panel extends React.Component {
     this.setOptions = this.setOptions.bind(this);
 
     this.state = { knobs: {} };
+
+    this.lastEdit = getTimestamp();
     this.loadedFromUrl = false;
     this.props.channel.on('addon:knobs:setKnobs', this.setKnobs);
     this.props.channel.on('addon:knobs:setOptions', this.setOptions);
+  }
 
+  componentWillUnmount() {
+    this.props.channel.removeListener('addon:knobs:setKnobs', this.setKnobs);
   }
 
   setOptions(options = {
@@ -58,36 +65,41 @@ export default class Panel extends React.Component {
     leading: false, //first change is istant
   }) {
     if (options.debounce) {
-      this.emitChange = debounce(this.emitChange, options.debounce, {leading: options.leading});
+      this.emitChange = debounce(
+        this.emitChange,
+        options.debounce.wait,
+        { leading: options.debounce.leading }
+      );
     }
   }
 
-  componentWillUnmount() {
-    this.props.channel.removeListener('addon:knobs:setKnobs', this.setKnobs);
-  }
-
-  setKnobs(knobs) {
+  setKnobs({ knobs, timestamp }) {
     const queryParams = {};
     const { api, channel } = this.props;
 
-    Object.keys(knobs).forEach((name) => {
-      const knob = knobs[name];
-      // For the first time, get values from the URL and set them.
-      if (!this.loadedFromUrl) {
-        const urlValue = api.getQueryParam(`knob-${name}`);
+    if (this.lastEdit <= timestamp) {
+      this.lastEdit = getTimestamp();
 
-        if (urlValue !== undefined) { // If the knob value present in url
-          knob.value = Types[knob.type].deserialize(urlValue);
-          channel.emit('addon:knobs:knobChange', knob);
+      Object.keys(knobs).forEach((name) => {
+        const knob = knobs[name];
+        // For the first time, get values from the URL and set them.
+        if (!this.loadedFromUrl) {
+          const urlValue = api.getQueryParam(`knob-${name}`);
+
+          if (urlValue !== undefined) { // If the knob value present in url
+            knob.value = Types[knob.type].deserialize(urlValue);
+            channel.emit('addon:knobs:knobChange', knob);
+          }
         }
-      }
 
-      queryParams[`knob-${name}`] = Types[knob.type].serialize(knob.value);
-    });
+        queryParams[`knob-${name}`] = Types[knob.type].serialize(knob.value);
+      });
 
-    this.loadedFromUrl = true;
-    api.setQueryParams(queryParams);
-    this.setState({ knobs });
+      this.loadedFromUrl = true;
+      api.setQueryParams(queryParams);
+
+      this.setState({ knobs });
+    }
   }
 
   reset() {
@@ -99,7 +111,8 @@ export default class Panel extends React.Component {
   }
 
   handleChange(changedKnob) {
-    const { api, channel } = this.props;
+    this.lastEdit = getTimestamp();
+    const { api } = this.props;
     const { knobs } = this.state;
     const { name, type, value } = changedKnob;
     const newKnobs = { ...knobs };
@@ -108,14 +121,12 @@ export default class Panel extends React.Component {
       ...changedKnob,
     };
 
-    this.setState({ knobs: newKnobs });
-
     const queryParams = {};
     queryParams[`knob-${name}`] = Types[type].serialize(value);
 
     api.setQueryParams(queryParams);
 
-    this.emitChange(changedKnob);
+    this.setState({ knobs: newKnobs }, this.emitChange(changedKnob));
   }
 
   render() {

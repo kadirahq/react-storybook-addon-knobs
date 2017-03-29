@@ -44,8 +44,8 @@ var styles = {
   color: '#444'
 };
 
-var NumberType = function (_React$Component) {
-  (0, _inherits3.default)(NumberType, _React$Component);
+var NumberType = function (_React$PureComponent) {
+  (0, _inherits3.default)(NumberType, _React$PureComponent);
 
   function NumberType(props) {
     (0, _classCallCheck3.default)(this, NumberType);
@@ -112,7 +112,7 @@ var NumberType = function (_React$Component) {
     }
   }]);
   return NumberType;
-}(_react2.default.Component);
+}(_react2.default.PureComponent);
 
 NumberType.propTypes = {
   knob: _react2.default.PropTypes.object,

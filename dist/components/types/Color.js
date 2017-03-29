@@ -54,8 +54,8 @@ var styles = {
   }
 };
 
-var ColorType = function (_React$Component) {
-  (0, _inherits3.default)(ColorType, _React$Component);
+var ColorType = function (_React$PureComponent) {
+  (0, _inherits3.default)(ColorType, _React$PureComponent);
 
   function ColorType(props) {
     (0, _classCallCheck3.default)(this, ColorType);
@@ -64,6 +64,7 @@ var ColorType = function (_React$Component) {
 
     _this.handleClick = _this.handleClick.bind(_this);
     _this.onWindowMouseDown = _this.onWindowMouseDown.bind(_this);
+    _this.onChange = _this.onChange.bind(_this);
     _this.state = {
       displayColorPicker: false
     };
@@ -98,13 +99,16 @@ var ColorType = function (_React$Component) {
       });
     }
   }, {
+    key: 'onChange',
+    value: function onChange(color) {
+      this.props.onChange(color.hex);
+    }
+  }, {
     key: 'render',
     value: function render() {
       var _this2 = this;
 
-      var _props = this.props,
-          knob = _props.knob,
-          _onChange = _props.onChange;
+      var knob = this.props.knob;
 
       var colorStyle = {
         width: 'auto',
@@ -113,6 +117,7 @@ var ColorType = function (_React$Component) {
         margin: 5,
         background: knob.value
       };
+
       return _react2.default.createElement(
         'div',
         { id: knob.name },
@@ -126,15 +131,13 @@ var ColorType = function (_React$Component) {
           { style: styles.popover, ref: function ref(e) {
               _this2.popover = e;
             } },
-          _react2.default.createElement(_reactColor.SketchPicker, { color: knob.value, onChange: function onChange(color) {
-              return _onChange(color.hex);
-            } })
+          _react2.default.createElement(_reactColor.SketchPicker, { color: knob.value, onChange: this.onChange })
         ) : null
       );
     }
   }]);
   return ColorType;
-}(_react2.default.Component);
+}(_react2.default.PureComponent);
 
 ColorType.propTypes = {
   knob: _react2.default.PropTypes.object,

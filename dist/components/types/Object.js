@@ -60,8 +60,8 @@ var styles = {
   fontFamily: 'monospace'
 };
 
-var ObjectType = function (_React$Component) {
-  (0, _inherits3.default)(ObjectType, _React$Component);
+var ObjectType = function (_React$PureComponent) {
+  (0, _inherits3.default)(ObjectType, _React$PureComponent);
 
   function ObjectType() {
     var _ref;
@@ -144,7 +144,7 @@ var ObjectType = function (_React$Component) {
     }
   }]);
   return ObjectType;
-}(_react2.default.Component);
+}(_react2.default.PureComponent);
 
 ObjectType.propTypes = {
   knob: _react2.default.PropTypes.object,

@@ -15,7 +15,7 @@ const styles = {
   color: '#555',
 };
 
-class ArrayType extends React.Component {
+class ArrayType extends React.PureComponent {
   render() {
     const { knob, onChange } = this.props;
     return (

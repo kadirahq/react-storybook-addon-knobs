@@ -1,5 +1,4 @@
 import React from 'react';
-
 import PropField from './PropField';
 
 const stylesheet = {
@@ -16,7 +15,7 @@ const stylesheet = {
   },
 };
 
-export default class propForm extends React.Component {
+export default class propForm extends React.PureComponent {
   constructor() {
     super();
     this._onFieldChange = this.onFieldChange.bind(this);
@@ -28,7 +27,7 @@ export default class propForm extends React.Component {
   }
 
   render() {
-    const knobs = this.props.knobs;
+    const { knobs } = this.props;
 
     return (
       <form style={stylesheet.propForm}>
@@ -39,7 +38,7 @@ export default class propForm extends React.Component {
             type={knob.type}
             value={knob.value}
             knob={knob}
-            onChange={this._onFieldChange.bind(null, knob.name, knob.type)}
+            onChange={this._onFieldChange}
           />
         ))}
       </form>

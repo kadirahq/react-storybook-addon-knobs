@@ -23,11 +23,12 @@ const styles = {
   },
 };
 
-class ColorType extends React.Component {
+class ColorType extends React.PureComponent {
   constructor(props) {
     super(props);
     this.handleClick = this.handleClick.bind(this);
     this.onWindowMouseDown = this.onWindowMouseDown.bind(this);
+    this.onChange = this.onChange.bind(this);
     this.state = {
       displayColorPicker: false,
     };
@@ -55,8 +56,12 @@ class ColorType extends React.Component {
     });
   }
 
+  onChange(color) {
+    this.props.onChange(color.hex);
+  }
+
   render() {
-    const { knob, onChange } = this.props;
+    const { knob } = this.props;
     const colorStyle = {
       width: 'auto',
       height: '20px',
@@ -64,6 +69,7 @@ class ColorType extends React.Component {
       margin: 5,
       background: knob.value,
     };
+
     return (
       <div id={knob.name}>
         <div style={ styles.swatch } onClick={ this.handleClick }>
@@ -71,7 +77,7 @@ class ColorType extends React.Component {
         </div>
         { this.state.displayColorPicker ? (
           <div style={ styles.popover } ref={(e) => {this.popover = e;}}>
-            <SketchPicker color={ knob.value } onChange={ color => onChange(color.hex) } />
+            <SketchPicker color={ knob.value } onChange={ this.onChange } />
           </div>
         ) : null }
       </div>

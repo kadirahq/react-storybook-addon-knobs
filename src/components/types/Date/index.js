@@ -20,7 +20,7 @@ const customStyle = `
 insertCss(style);
 insertCss(customStyle);
 
-class DateType extends React.Component {
+class DateType extends React.PureComponent {
   render() {
     const { knob, onChange } = this.props;
     return (

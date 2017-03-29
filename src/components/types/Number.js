@@ -15,7 +15,7 @@ const styles = {
 };
 
 
-class NumberType extends React.Component {
+class NumberType extends React.PureComponent {
 
   constructor(props) {
     super(props);
