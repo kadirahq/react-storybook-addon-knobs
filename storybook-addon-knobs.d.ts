@@ -27,6 +27,8 @@ export function select(name: string, options: string[], value: string): string;
 
 export function date(name: string, value?: Date): Date;
 
+export function array(name: string, defaultValue?: string[]): string[];
+
 interface IWrapStoryProps {
   context?: Object;
   storyFn?: Function;
