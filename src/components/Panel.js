@@ -78,7 +78,6 @@ export default class Panel extends React.Component {
     const { api, channel } = this.props;
 
     if (this.lastEdit <= timestamp) {
-      this.lastEdit = getTimestamp();
 
       Object.keys(knobs).forEach((name) => {
         const knob = knobs[name];

@@ -139,7 +139,6 @@ var Panel = function (_React$Component) {
 
 
       if (this.lastEdit <= timestamp) {
-        this.lastEdit = getTimestamp();
 
         (0, _keys2.default)(knobs).forEach(function (name) {
           var knob = knobs[name];
