@@ -49,6 +49,7 @@ export default class Panel extends React.Component {
     this.setOptions = this.setOptions.bind(this);
 
     this.state = { knobs: {} };
+    this.options = {};
 
     this.lastEdit = getTimestamp();
     this.loadedFromUrl = false;
@@ -62,8 +63,9 @@ export default class Panel extends React.Component {
 
   setOptions(options = {
     debounce: false,
-    leading: false, //first change is istant
+    timestamps: false,
   }) {
+    this.options = options;
     if (options.debounce) {
       this.emitChange = debounce(
         this.emitChange,
@@ -77,8 +79,7 @@ export default class Panel extends React.Component {
     const queryParams = {};
     const { api, channel } = this.props;
 
-    if (this.lastEdit <= timestamp) {
-
+    if (!this.options.timestamps || this.lastEdit <= timestamp) {
       Object.keys(knobs).forEach((name) => {
         const knob = knobs[name];
         // For the first time, get values from the URL and set them.

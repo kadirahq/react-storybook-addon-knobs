@@ -100,6 +100,7 @@ var Panel = function (_React$Component) {
     _this.setOptions = _this.setOptions.bind(_this);
 
     _this.state = { knobs: {} };
+    _this.options = {};
 
     _this.lastEdit = getTimestamp();
     _this.loadedFromUrl = false;
@@ -118,8 +119,10 @@ var Panel = function (_React$Component) {
     value: function setOptions() {
       var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {
         debounce: false,
-        leading: false };
+        timestamps: false
+      };
 
+      this.options = options;
       if (options.debounce) {
         this.emitChange = (0, _lodash2.default)(this.emitChange, options.debounce.wait, { leading: options.debounce.leading });
       }
@@ -138,8 +141,7 @@ var Panel = function (_React$Component) {
           channel = _props.channel;
 
 
-      if (this.lastEdit <= timestamp) {
-
+      if (!this.options.timestamps || this.lastEdit <= timestamp) {
         (0, _keys2.default)(knobs).forEach(function (name) {
           var knob = knobs[name];
           // For the first time, get values from the URL and set them.
