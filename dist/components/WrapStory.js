@@ -74,11 +74,12 @@ var WrapStory = function (_React$Component) {
   }, {
     key: 'setPaneKnobs',
     value: function setPaneKnobs() {
+      var timestamp = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : +new Date();
       var _props = this.props,
           channel = _props.channel,
           knobStore = _props.knobStore;
 
-      channel.emit('addon:knobs:setKnobs', { knobs: knobStore.getAll(), timestamp: +new Date() });
+      channel.emit('addon:knobs:setKnobs', { knobs: knobStore.getAll(), timestamp: timestamp });
     }
   }, {
     key: 'knobChanged',
@@ -106,7 +107,7 @@ var WrapStory = function (_React$Component) {
 
       knobStore.reset();
       this.setState({ storyContent: storyFn(context) });
-      this.setPaneKnobs();
+      this.setPaneKnobs(false);
     }
   }, {
     key: 'render',

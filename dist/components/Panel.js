@@ -141,7 +141,7 @@ var Panel = function (_React$Component) {
           channel = _props.channel;
 
 
-      if (!this.options.timestamps || this.lastEdit <= timestamp) {
+      if (!this.options.timestamps || !timestamp || this.lastEdit <= timestamp) {
         (0, _keys2.default)(knobs).forEach(function (name) {
           var knob = knobs[name];
           // For the first time, get values from the URL and set them.

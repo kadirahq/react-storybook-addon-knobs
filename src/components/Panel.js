@@ -79,7 +79,7 @@ export default class Panel extends React.Component {
     const queryParams = {};
     const { api, channel } = this.props;
 
-    if (!this.options.timestamps || this.lastEdit <= timestamp) {
+    if (!this.options.timestamps || !timestamp || this.lastEdit <= timestamp) {
       Object.keys(knobs).forEach((name) => {
         const knob = knobs[name];
         // For the first time, get values from the URL and set them.
