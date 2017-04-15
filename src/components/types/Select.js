@@ -18,10 +18,10 @@ class SelectType extends React.Component {
   _makeOpt(key, val) {
     const opts = {
       key,
-      value: key,
+      value: val,
     };
 
-    return <option {...opts}>{val}</option>;
+    return <option {...opts}>{key}</option>;
   }
   _options(values) {
     let data = [];
