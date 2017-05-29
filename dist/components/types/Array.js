@@ -48,8 +48,8 @@ var styles = {
   color: '#555'
 };
 
-var ArrayType = function (_React$Component) {
-  (0, _inherits3.default)(ArrayType, _React$Component);
+var ArrayType = function (_React$PureComponent) {
+  (0, _inherits3.default)(ArrayType, _React$PureComponent);
 
   function ArrayType() {
     (0, _classCallCheck3.default)(this, ArrayType);
@@ -75,7 +75,7 @@ var ArrayType = function (_React$Component) {
     }
   }]);
   return ArrayType;
-}(_react2.default.Component);
+}(_react2.default.PureComponent);
 
 ArrayType.propTypes = {
   knob: _react2.default.PropTypes.object,

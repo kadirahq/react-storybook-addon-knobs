@@ -16,7 +16,7 @@ const styles = {
   fontFamily: 'monospace',
 };
 
-class ObjectType extends React.Component {
+class ObjectType extends React.PureComponent {
   constructor(...args) {
     super(...args);
     this.state = {};

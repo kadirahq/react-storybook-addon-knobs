@@ -51,7 +51,7 @@ describe('Panel', () => {
         },
       };
 
-      setKnobsHandler(knobs);
+      setKnobsHandler({ knobs, timestamp: +new Date() });
       const knobFromUrl = {
         name: 'foo',
         value: testQueryParams['knob-foo'],
@@ -102,7 +102,7 @@ describe('Panel', () => {
       // Make it act like that url params are already checked
       wrapper.instance().loadedFromUrl = true;
 
-      setKnobsHandler(knobs);
+      setKnobsHandler({ knobs, timestamp: +new Date() });
       const knobFromStory = {
         'knob-foo': knobs.foo.value,
         'knob-baz': knobs.baz.value,

@@ -45,8 +45,8 @@ var stylesheet = {
   }
 };
 
-var propForm = function (_React$Component) {
-  (0, _inherits3.default)(propForm, _React$Component);
+var propForm = function (_React$PureComponent) {
+  (0, _inherits3.default)(propForm, _React$PureComponent);
 
   function propForm() {
     (0, _classCallCheck3.default)(this, propForm);
@@ -70,6 +70,7 @@ var propForm = function (_React$Component) {
 
       var knobs = this.props.knobs;
 
+
       return _react2.default.createElement(
         'form',
         { style: stylesheet.propForm },
@@ -80,14 +81,14 @@ var propForm = function (_React$Component) {
             type: knob.type,
             value: knob.value,
             knob: knob,
-            onChange: _this2._onFieldChange.bind(null, knob.name, knob.type)
+            onChange: _this2._onFieldChange
           });
         })
       );
     }
   }]);
   return propForm;
-}(_react2.default.Component);
+}(_react2.default.PureComponent);
 
 exports.default = propForm;
 

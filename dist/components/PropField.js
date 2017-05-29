@@ -36,6 +36,10 @@ var _types = require('./types');
 
 var _types2 = _interopRequireDefault(_types);
 
+var _lodash = require('lodash.isequal');
+
+var _lodash2 = _interopRequireDefault(_lodash);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var InvalidType = function InvalidType() {
@@ -74,29 +78,32 @@ stylesheet.checkbox = (0, _extends3.default)({}, stylesheet.input, {
   width: 'auto'
 });
 
-var PropField = function (_React$Component) {
-  (0, _inherits3.default)(PropField, _React$Component);
+var PropField = function (_React$PureComponent) {
+  (0, _inherits3.default)(PropField, _React$PureComponent);
 
   function PropField(props) {
     (0, _classCallCheck3.default)(this, PropField);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (PropField.__proto__ || (0, _getPrototypeOf2.default)(PropField)).call(this, props));
 
-    _this._onChange = _this.onChange.bind(_this);
+    _this._onChange = _this._onChange.bind(_this);
     return _this;
   }
 
   (0, _createClass3.default)(PropField, [{
-    key: 'onChange',
-    value: function onChange(e) {
-      this.props.onChange(e.target.value);
+    key: '_onChange',
+    value: function _onChange(value) {
+      this.props.onChange(this.props.name, this.props.type, value);
+    }
+  }, {
+    key: 'shouldComponentUpdate',
+    value: function shouldComponentUpdate(newProps) {
+      return !(0, _lodash2.default)(this.props.knob, newProps.knob);
     }
   }, {
     key: 'render',
     value: function render() {
-      var _props = this.props,
-          onChange = _props.onChange,
-          knob = _props.knob;
+      var knob = this.props.knob;
 
 
       var InputType = _types2.default[knob.type] || InvalidType;
@@ -111,13 +118,13 @@ var PropField = function (_React$Component) {
         ),
         _react2.default.createElement(InputType, {
           knob: knob,
-          onChange: onChange
+          onChange: this._onChange
         })
       );
     }
   }]);
   return PropField;
-}(_react2.default.Component);
+}(_react2.default.PureComponent);
 
 exports.default = PropField;
 

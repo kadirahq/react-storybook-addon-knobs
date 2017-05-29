@@ -103,11 +103,11 @@ var KnobManager = function () {
         return;
       }
       this.calling = true;
-
+      var timestamp = +new Date();
       setTimeout(function () {
         _this.calling = false;
         // emit to the channel and trigger a panel re-render
-        _this.channel.emit('addon:knobs:setKnobs', _this.knobStore.getAll());
+        _this.channel.emit('addon:knobs:setKnobs', { knobs: _this.knobStore.getAll(), timestamp: timestamp });
       }, PANEL_UPDATE_INTERVAL);
     }
   }]);

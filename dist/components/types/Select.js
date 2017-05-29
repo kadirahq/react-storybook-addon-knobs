@@ -48,8 +48,8 @@ var styles = {
   color: '#555'
 };
 
-var SelectType = function (_React$Component) {
-  (0, _inherits3.default)(SelectType, _React$Component);
+var SelectType = function (_React$PureComponent) {
+  (0, _inherits3.default)(SelectType, _React$PureComponent);
 
   function SelectType() {
     (0, _classCallCheck3.default)(this, SelectType);
@@ -112,7 +112,7 @@ var SelectType = function (_React$Component) {
     }
   }]);
   return SelectType;
-}(_react2.default.Component);
+}(_react2.default.PureComponent);
 
 SelectType.propTypes = {
   knob: _react2.default.PropTypes.object,

@@ -47,8 +47,8 @@ var customStyle = '\n  .rdt input {\n    outline: 0;\n    width: 100%;\n    bord
 (0, _insertCss2.default)(_styles2.default);
 (0, _insertCss2.default)(customStyle);
 
-var DateType = function (_React$Component) {
-  (0, _inherits3.default)(DateType, _React$Component);
+var DateType = function (_React$PureComponent) {
+  (0, _inherits3.default)(DateType, _React$PureComponent);
 
   function DateType() {
     (0, _classCallCheck3.default)(this, DateType);
@@ -77,7 +77,7 @@ var DateType = function (_React$Component) {
     }
   }]);
   return DateType;
-}(_react2.default.Component);
+}(_react2.default.PureComponent);
 
 DateType.propTypes = {
   knob: _react2.default.PropTypes.object,

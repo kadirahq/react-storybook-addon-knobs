@@ -1,5 +1,6 @@
 import React from 'react';
 import TypeMap from './types';
+import isEqual from 'lodash.isequal';
 
 const InvalidType = () => (<span>Invalid Type</span>);
 
@@ -32,18 +33,22 @@ stylesheet.checkbox = {
   width: 'auto',
 };
 
-export default class PropField extends React.Component {
+export default class PropField extends React.PureComponent {
   constructor(props) {
     super(props);
-    this._onChange = this.onChange.bind(this);
+    this._onChange = this._onChange.bind(this);
   }
 
-  onChange(e) {
-    this.props.onChange(e.target.value);
+  _onChange(value) {
+    this.props.onChange(this.props.name, this.props.type, value);
+  }
+
+  shouldComponentUpdate(newProps) {
+    return !isEqual(this.props.knob, newProps.knob);
   }
 
   render() {
-    const { onChange, knob } = this.props;
+    const { knob } = this.props;
 
     let InputType = TypeMap[knob.type] || InvalidType;
 
@@ -54,7 +59,7 @@ export default class PropField extends React.Component {
         </label>
         <InputType
           knob={knob}
-          onChange={onChange}
+          onChange={this._onChange}
         />
       </div>
     );

@@ -48,8 +48,8 @@ var styles = {
   color: '#555'
 };
 
-var TextType = function (_React$Component) {
-  (0, _inherits3.default)(TextType, _React$Component);
+var TextType = function (_React$PureComponent) {
+  (0, _inherits3.default)(TextType, _React$PureComponent);
 
   function TextType() {
     (0, _classCallCheck3.default)(this, TextType);
@@ -76,7 +76,7 @@ var TextType = function (_React$Component) {
     }
   }]);
   return TextType;
-}(_react2.default.Component);
+}(_react2.default.PureComponent);
 
 TextType.propTypes = {
   knob: _react2.default.PropTypes.object,

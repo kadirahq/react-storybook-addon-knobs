@@ -44,7 +44,15 @@ var _types = require('./types');
 
 var _types2 = _interopRequireDefault(_types);
 
+var _lodash = require('lodash.debounce');
+
+var _lodash2 = _interopRequireDefault(_lodash);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var getTimestamp = function getTimestamp() {
+  return +new Date();
+};
 
 var styles = {
   panelWrapper: {
@@ -89,10 +97,15 @@ var Panel = function (_React$Component) {
     _this.handleChange = _this.handleChange.bind(_this);
     _this.setKnobs = _this.setKnobs.bind(_this);
     _this.reset = _this.reset.bind(_this);
+    _this.setOptions = _this.setOptions.bind(_this);
 
     _this.state = { knobs: {} };
+    _this.options = {};
+
+    _this.lastEdit = getTimestamp();
     _this.loadedFromUrl = false;
     _this.props.channel.on('addon:knobs:setKnobs', _this.setKnobs);
+    _this.props.channel.on('addon:knobs:setOptions', _this.setOptions);
     return _this;
   }
 
@@ -102,9 +115,25 @@ var Panel = function (_React$Component) {
       this.props.channel.removeListener('addon:knobs:setKnobs', this.setKnobs);
     }
   }, {
+    key: 'setOptions',
+    value: function setOptions() {
+      var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {
+        debounce: false,
+        timestamps: false
+      };
+
+      this.options = options;
+      if (options.debounce) {
+        this.emitChange = (0, _lodash2.default)(this.emitChange, options.debounce.wait, { leading: options.debounce.leading });
+      }
+    }
+  }, {
     key: 'setKnobs',
-    value: function setKnobs(knobs) {
+    value: function setKnobs(_ref) {
       var _this2 = this;
+
+      var knobs = _ref.knobs,
+          timestamp = _ref.timestamp;
 
       var queryParams = {};
       var _props = this.props,
@@ -112,25 +141,28 @@ var Panel = function (_React$Component) {
           channel = _props.channel;
 
 
-      (0, _keys2.default)(knobs).forEach(function (name) {
-        var knob = knobs[name];
-        // For the first time, get values from the URL and set them.
-        if (!_this2.loadedFromUrl) {
-          var urlValue = api.getQueryParam('knob-' + name);
+      if (!this.options.timestamps || !timestamp || this.lastEdit <= timestamp) {
+        (0, _keys2.default)(knobs).forEach(function (name) {
+          var knob = knobs[name];
+          // For the first time, get values from the URL and set them.
+          if (!_this2.loadedFromUrl) {
+            var urlValue = api.getQueryParam('knob-' + name);
 
-          if (urlValue !== undefined) {
-            // If the knob value present in url
-            knob.value = _types2.default[knob.type].deserialize(urlValue);
-            channel.emit('addon:knobs:knobChange', knob);
+            if (urlValue !== undefined) {
+              // If the knob value present in url
+              knob.value = _types2.default[knob.type].deserialize(urlValue);
+              channel.emit('addon:knobs:knobChange', knob);
+            }
           }
-        }
 
-        queryParams['knob-' + name] = _types2.default[knob.type].serialize(knob.value);
-      });
+          queryParams['knob-' + name] = _types2.default[knob.type].serialize(knob.value);
+        });
 
-      this.loadedFromUrl = true;
-      api.setQueryParams(queryParams);
-      this.setState({ knobs: knobs });
+        this.loadedFromUrl = true;
+        api.setQueryParams(queryParams);
+
+        this.setState({ knobs: knobs });
+      }
     }
   }, {
     key: 'reset',
@@ -138,11 +170,15 @@ var Panel = function (_React$Component) {
       this.props.channel.emit('addon:knobs:reset');
     }
   }, {
+    key: 'emitChange',
+    value: function emitChange(changedKnob) {
+      this.props.channel.emit('addon:knobs:knobChange', changedKnob);
+    }
+  }, {
     key: 'handleChange',
     value: function handleChange(changedKnob) {
-      var _props2 = this.props,
-          api = _props2.api,
-          channel = _props2.channel;
+      this.lastEdit = getTimestamp();
+      var api = this.props.api;
       var knobs = this.state.knobs;
       var name = changedKnob.name,
           type = changedKnob.type,
@@ -151,13 +187,12 @@ var Panel = function (_React$Component) {
       var newKnobs = (0, _extends3.default)({}, knobs);
       newKnobs[name] = (0, _extends3.default)({}, newKnobs[name], changedKnob);
 
-      this.setState({ knobs: newKnobs });
-
       var queryParams = {};
       queryParams['knob-' + name] = _types2.default[type].serialize(value);
 
       api.setQueryParams(queryParams);
-      channel.emit('addon:knobs:knobChange', changedKnob);
+
+      this.setState({ knobs: newKnobs }, this.emitChange(changedKnob));
     }
   }, {
     key: 'render',
