@@ -29,6 +29,8 @@ export function array<T>(name: string, value: T[], separator: string): T[];
 
 export function date(name: string, value?: Date): Date;
 
+export function array(name: string, defaultValue?: string[]): string[];
+
 interface IWrapStoryProps {
   context?: Object;
   storyFn?: Function;
